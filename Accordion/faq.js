@@ -18,7 +18,7 @@ const faqData = [
 
 const accordianBody = document.querySelector('.accordian_body');
 
-const faqs = faqData.map((faq) => createFaq(faq.question, faq.answer));
+const faqs = faqData.map(({ question, answer }) => createFaq(question, answer));
 
 function showFaq() {
     faqs.forEach((faq) => accordianBody.appendChild(faq));
@@ -50,7 +50,17 @@ function createFaq(question, answer) {
 }
 
 function btnStatusUpdate() {
-    showBtn.addEventListener('click', function (e) {
-        showBtn.textContent = e.target;
+    const allBtns = document.querySelectorAll('.show_btn');
+    allBtns.forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+            const currEl = e.target.parentElement.nextSibling;
+            const currBtn = e.target;
+            currEl.classList.toggle('hidden');
+            currBtn.textContent = currEl.classList.contains('hidden')
+                ? '+'
+                : '-';
+        });
     });
 }
+
+btnStatusUpdate();
